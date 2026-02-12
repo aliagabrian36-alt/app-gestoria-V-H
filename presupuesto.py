@@ -127,7 +127,7 @@ def guardar_en_registro(datos):
 
 # --- CONFIGURACIÓN DE INTERFAZ ---
 st.set_page_config(page_title="Gestor de Presupuestos Automotor", layout="centered")
-st.title("📋 Presupuestador de Trámites Gestoria V&H")
+st.title("📋 Presupuestador de Trámites")
 
 # --- SECCIÓN 1: DATOS DEL CLIENTE ---
 st.header("Datos del Cliente")
@@ -281,6 +281,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
