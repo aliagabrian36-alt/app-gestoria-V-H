@@ -6,11 +6,15 @@ import os
 # Añadimos timedelta para el ajuste de zona horaria (UTC-3)
 from datetime import datetime, timedelta
 # 2. SEGUNDO LA CONFIGURACIÓN DE PÁGINA (Antes de cualquier otro código de Streamlit)
-st.set_page_config(
-    page_title="Gestoria V&H",
-    page_icon="📋",  # Esto pone tu logo en la pestaña y en el acceso directo
-    layout="centered"
-)
+# Reemplaza tu bloque del logo por este para probar:
+col_l1, col_l2, col_l3 = st.columns([1, 1, 1])
+with col_l2:
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=150)
+    else:
+        st.error("⚠️ El sistema NO encuentra el archivo logo.png en la carpeta")
+        # Esto te mostrará una lista de archivos que SI ve el sistema:
+        st.write("Archivos detectados:", os.listdir())
 
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
@@ -278,6 +282,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
