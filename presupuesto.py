@@ -18,17 +18,12 @@ st.set_page_config(
     page_icon=img_icono, 
     layout="centered"
 )
-
 # --- LOGO ENCABEZADO ---
 if os.path.exists("logo.png"):
     # He ajustado el width a un valor estándar; 1480 era demasiado grande
     st.image("logo.png", use_container_width=1480)
 else:
     st.warning("No se encontró el archivo logo.png")
-
-# Títulos centrados
-st.markdown("<h1 style='text-align: center;'>Presupuestador de Trámites</h1>", unsafe_allow_html=True)
-
 
 
 # --- CONFIGURACIÓN DE SUPABASE ---
@@ -297,6 +292,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
