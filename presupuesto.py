@@ -147,7 +147,7 @@ with col_t1:
         "Certificacion de 1ra firma Escribania": 30000.0,
         "Informe de Dominio": 10000.0
     }
-    tipo_tramite = st.selectbox("Seleccione el Trámite", list(tramites_precios.keys))))
+    tipo_tramite = st.selectbox("Seleccione el Trámite", list(tramites_precios.keys))
 valor_tabla = st.number_input("Precio de tabla automotor ($)", min_value=0.0, step=1000.0,format="%.0f")
 with col_t2:
     distancia = st.number_input("Distancia (KM ida y vuelta)", min_value=0.0)
@@ -270,6 +270,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
