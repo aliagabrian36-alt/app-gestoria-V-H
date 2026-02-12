@@ -212,7 +212,7 @@ st.success(f"### TOTAL: ${total_final:,.2f}")
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    if st.button("✅ Generar formato WhatsApp"):
+    if st.button("Generar formato WhatsApp"):
         texto_wa = f"""*PRESUPUESTO GESTORÍA AUTOMOTOR*\n---\n*Cliente:* {nombre}\n*Dominio:* {dominio}\n*Trámite:* {tipo_tramite}\n---\n- Arancel: ${arancel_dnrpa:,.2f}\n- Sello: ${impuesto_sello:,.2f}\n- Honorarios: ${honorarios:,.2f}\n---\n*TOTAL: ${total_final:,.2f}*"""
         st.text_area("Copia este mensaje:", texto_wa, height=200)
 
@@ -261,7 +261,3 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
         st.dataframe(df_mostrar, use_container_width=True)
     else:
         st.info("No hay registros en la base de datos todavía.")
-    """
-
-    st.text_area("Copia este mensaje:", texto_wa, height=300)
-
