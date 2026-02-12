@@ -3,32 +3,32 @@ from supabase import create_client, Client
 from fpdf import FPDF
 import pandas as pd
 import os
-# Añadimos timedelta para el ajuste de zona horaria (UTC-3)
 from datetime import datetime, timedelta
-import streamlit as st
-import os
 from PIL import Image
 
-# Esto es lo que Android lee para crear el acceso directo pro
-# Intentamos cargar la imagen antes de configurar la página
+# --- CONFIGURACIÓN DE PÁGINA (Debe ser lo primero después de los imports) ---
 try:
-    img_logo = Image.open("icono.png")
+    # Cambiamos a "icono.png" con mayúscula para que coincida con tu archivo en GitHub
+    img_icono = Image.open("icono.png")
 except:
-    img_logo = "📋" # Si falla, pone un emoji para no tirar error
+    img_icono = "📋"
 
 st.set_page_config(
     page_title="Gestoría V&H",
-    page_icon=img_icono, # <--- Usamos la variable de la imagen abierta
+    page_icon=img_icono, 
     layout="centered"
 )
-# 2. SEGUNDO LA CONFIGURACIÓN DE PÁGINA (Antes de cualquier otro código de Streamlit)
+
 # --- LOGO ENCABEZADO ---
 if os.path.exists("logo.png"):
-    # Usamos use_container_width=True para que se adapte al ancho de la pantalla
-    # O podés fijar un ancho grande como width=700
+    # He ajustado el width a un valor estándar; 1480 era demasiado grande
     st.image("logo.png", use_container_width=1480)
 else:
     st.warning("No se encontró el archivo logo.png")
+
+# Títulos centrados
+st.markdown("<h1 style='text-align: center;'>Presupuestador de Trámites</h1>", unsafe_allow_html=True)
+
 
 
 # --- CONFIGURACIÓN DE SUPABASE ---
@@ -297,6 +297,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
