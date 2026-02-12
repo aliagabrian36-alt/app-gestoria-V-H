@@ -14,9 +14,6 @@ if os.path.exists("logo.png"):
 else:
     st.warning("No se encontró el archivo logo.png")
 
-# Título centrado debajo del logo
-st.markdown("<h1 style='text-align: center;'>Presupuestador de Trámites</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='text-align: center; color: gray;'>Gestoría V&H</h3>", unsafe_allow_html=True)
 
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
@@ -284,6 +281,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
