@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Gestor de Presupuestos Automotor", layout="centered")
 
-st.title("📋 Presupuestador de Trámites")
+st.title("📋 Presupuestador de Trámites Gestoria V&H")
 
 # --- SECCIÓN 1: DATOS DEL CLIENTE ---
 st.header("Datos del Cliente")
@@ -127,4 +127,5 @@ if st.button("Generar formato WhatsApp"):
 ---------------------------------
 *TOTAL FINAL: ${total_final:,.2f}*
     """
+
     st.text_area("Copia este mensaje:", texto_wa, height=300)
