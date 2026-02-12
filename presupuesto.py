@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 col_l1, col_l2, col_l3 = st.columns([1, 1, 1])
 with col_l2:
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=1400)
+        st.image("logo.png", width=2048)
     else:
         st.error("⚠️ El sistema NO encuentra el archivo logo.png en la carpeta")
         # Esto te mostrará una lista de archivos que SI ve el sistema:
@@ -282,6 +282,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
