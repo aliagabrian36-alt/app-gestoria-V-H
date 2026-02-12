@@ -13,9 +13,8 @@ with col_logo2: # La columna del medio
     if os.path.exists("logo.png"):
         st.image("logo.png", width=150) # Podés ajustar el tamaño aquí
     else:
-        st.info("Colocá un archivo llamado logo.png para verlo aquí")
+        st.info("")
 
-st.markdown("<h1 style='text-align: center;'>📋 Presupuestador Gestoría V&H</h1>", unsafe_allow_html=True)
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
 KEY_SUPABASE = "sb_publishable_JYDM7cZFlxI6D-l6wEC1Mw_-VnxD0tq" 
@@ -280,4 +279,5 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
