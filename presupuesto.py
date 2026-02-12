@@ -7,11 +7,18 @@ import os
 from datetime import datetime, timedelta
 import streamlit as st
 import os
+from PIL import Image
 
 # Esto es lo que Android lee para crear el acceso directo pro
+# Intentamos cargar la imagen antes de configurar la página
+try:
+    img_logo = Image.open("icono.png")
+except:
+    img_logo = "📋" # Si falla, pone un emoji para no tirar error
+
 st.set_page_config(
     page_title="Gestoría V&H",
-    page_icon="logo.png", 
+    page_icon=img_icono, # <--- Usamos la variable de la imagen abierta
     layout="centered"
 )
 # 2. SEGUNDO LA CONFIGURACIÓN DE PÁGINA (Antes de cualquier otro código de Streamlit)
@@ -290,6 +297,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
