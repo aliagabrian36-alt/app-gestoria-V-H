@@ -3,8 +3,8 @@ from supabase import create_client, Client
 from fpdf import FPDF
 import pandas as pd
 import os
-from datetime import datetime
-
+# Añadimos timedelta para el ajuste de zona horaria (UTC-3)
+from datetime import datetime, timedelta
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
 KEY_SUPABASE = "sb_publishable_JYDM7cZFlxI6D-l6wEC1Mw_-VnxD0tq" 
@@ -12,13 +12,20 @@ KEY_SUPABASE = "sb_publishable_JYDM7cZFlxI6D-l6wEC1Mw_-VnxD0tq"
 supabase: Client = create_client(URL_SUPABASE, KEY_SUPABASE)
 
 # --- 1. FUNCIÓN PARA GUARDAR EN LA NUBE ---
+from datetime import datetime, timedelta # Asegúrate de agregar timedelta arriba
+
 def guardar_en_supabase(cliente, dominio, tramite, total):
     try:
+        # Calculamos la hora de Argentina (UTC-3)
+        argentina_now = datetime.utcnow() - timedelta(hours=3)
+        fecha_formateada = argentina_now.strftime('%d/%m/%Y %H:%M:%S')
+
         data = {
             "cliente": cliente,
             "dominio": dominio,
             "tramite": tramite,
-            "total": float(total)
+            "total": float(total),
+            "created_at": fecha_formateada # Sobrescribimos con nuestra hora
         }
         supabase.table("presupuestos").insert(data).execute()
         return True
@@ -260,4 +267,5 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
         df_mostrar = df_historial[[c for c in cols if c in df_historial.columns]]
         st.dataframe(df_mostrar, use_container_width=True)
     else:
+
         st.info("No hay registros en la base de datos todavía.")
