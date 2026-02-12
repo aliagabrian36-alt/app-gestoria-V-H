@@ -5,15 +5,7 @@ import pandas as pd
 import os
 # Añadimos timedelta para el ajuste de zona horaria (UTC-3)
 from datetime import datetime, timedelta
-# --- LOGO Y TÍTULO ---
-# Creamos tres columnas para centrar el logo
-col_logo1, col_logo2, col_logo3 = st.columns([1, 1, 1])
 
-with col_logo2: # La columna del medio
-    if os.path.exists("logo.png"):
-        st.image("logo.png", width=150) # Podés ajustar el tamaño aquí
-    else:
-        st.info("logo.PNG")
 
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
@@ -279,6 +271,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
