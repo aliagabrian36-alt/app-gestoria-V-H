@@ -224,7 +224,7 @@ impuesto_sello = valor_tabla * 0.03
 valor_mora = arancel_dnrpa * mora_opciones[mora_sel]
 honorarios = tramites_precios[tipo_tramite]
 costo_combustible = distancia * costo_km
-total_final = arancel_dnrpa + valor_mora + honorarios + costo_combustible + impuesto_sello + total_formularios
+total_final = arancel_dnrpa + valor_mora + honorarios + costo_combustible + impuesto_sello + total_formularios + otros_gastos
 
 # --- SECCIÓN 5: MOSTRAR DETALLE ---
 st.markdown("---")
@@ -236,7 +236,7 @@ col_res2.metric("Mora F08", f"${valor_mora:,.2f}")
 col_res2.metric("Honorarios", f"${honorarios:,.2f}")
 col_res3.metric("Subtotal Forms", f"${total_formularios:,.2f}")
 col_res3.metric("Combustible", f"${costo_combustible:,.2f}")
-
+col_res3.metric("Otros gastos", f"${otros_gastos:,.2f}")
 st.success(f"### TOTAL: ${total_final:,.2f}")
 
 # --- SECCIÓN 6: EXPORTACIÓN ---
@@ -260,7 +260,7 @@ with col_btn2:
         "Arancel DNRPA (1.25%)": arancel_dnrpa,
         "Impuesto al Sello (3%)": impuesto_sello,
         "Recargo por Moras": valor_mora,
-        "Honorarios + Formularios": total_formularios + honorarios + costo_combustible
+        "Honorarios + Formularios": total_formularios + honorarios + costo_combustible + otros_gastos
     }
     
     try:
@@ -291,6 +291,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
