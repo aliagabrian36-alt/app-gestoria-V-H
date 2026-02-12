@@ -5,6 +5,15 @@ import pandas as pd
 import os
 # Añadimos timedelta para el ajuste de zona horaria (UTC-3)
 from datetime import datetime, timedelta
+import streamlit as st
+import os
+
+# Esto es lo que Android lee para crear el acceso directo pro
+st.set_page_config(
+    page_title="Gestoría V&H",
+    page_icon="logo.png", 
+    layout="centered"
+)
 # 2. SEGUNDO LA CONFIGURACIÓN DE PÁGINA (Antes de cualquier otro código de Streamlit)
 # --- LOGO ENCABEZADO ---
 if os.path.exists("logo.png"):
@@ -281,6 +290,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
