@@ -10,10 +10,10 @@ from datetime import datetime, timedelta
 col_logo1, col_logo2, col_logo3 = st.columns([1, 1, 1])
 
 with col_logo2: # La columna del medio
-    if os.path.exists("logo.png"):
+    if os.path.exists("logo.PNG"):
         st.image("logo.png", width=150) # Podés ajustar el tamaño aquí
     else:
-        st.info("")
+        st.info("logo.PNG")
 
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
@@ -279,5 +279,6 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
