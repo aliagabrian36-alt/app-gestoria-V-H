@@ -12,7 +12,9 @@ URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co"
 KEY_SUPABASE = "sb_publishable_JYDM7cZFlxI6D-l6wEC1Mw_-VnxD0tq" 
 
 supabase: Client = create_client(URL_SUPABASE, KEY_SUPABASE)
-
+# Función para formatear números a estilo Argentino ($ 1.250.000)
+def formato_moneda(valor):
+    return f"$ {valor:,.0f}".replace(",", ".")
 # --- 1. FUNCIÓN PARA GUARDAR EN LA NUBE ---
 from datetime import datetime, timedelta # Asegúrate de agregar timedelta arriba
 
@@ -148,7 +150,7 @@ with col_t1:
         "Informe de Dominio": 10000.0
     }
     tipo_tramite = st.selectbox("Seleccione el Trámite", list(tramites_precios.keys()))
-valor_tabla = st.number_input("Precio de tabla automotor ($)", min_value=0.0, step=100.0, format="%.0f")
+valor_tabla = st.number_input("Precio de tabla automotor ($)", min_value=0.0, step=1000.0, format="%.0f")
 with col_t2:
     distancia = st.number_input("Distancia (KM ida y vuelta)", min_value=0.0)
     costo_km = st.number_input("Costo por KM combustible ($)", min_value=0.0, value=350.0)
@@ -270,6 +272,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
