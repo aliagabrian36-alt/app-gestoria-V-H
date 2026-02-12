@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 if os.path.exists("logo.png"):
     # Usamos use_container_width=True para que se adapte al ancho de la pantalla
     # O podés fijar un ancho grande como width=700
-    st.image("logo.png", use_container_width=True)
+    st.image("logo.png", use_container_width=1024)
 else:
     st.warning("No se encontró el archivo logo.png")
 
@@ -284,6 +284,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
