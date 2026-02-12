@@ -176,6 +176,7 @@ with col_t2:
     costo_km = st.number_input("Costo por KM combustible ($)", min_value=0.0, value=350.0)
     mora_opciones = {"0%": 0.0, "20%": 0.2, "40%": 0.4, "60%": 0.6, "80%": 0.8, "100%": 1.0}
     mora_sel = st.selectbox("Cantidad de Moras F08 (%)", list(mora_opciones.keys()))
+    otros_gastos = st.number_input("Otros gastos ($)", min_value=0.0)
 
 # --- SECCIÓN 3: SELECCIÓN DE FORMULARIOS ---
 st.header("Selección de Formularios")
@@ -243,7 +244,7 @@ col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
     if st.button("✅ Generar formato WhatsApp"):
-        texto_wa = f"""*PRESUPUESTO GESTORÍA AUTOMOTOR*\n---\n*Cliente:* {nombre}\n*Dominio:* {dominio}\n*Trámite:* {tipo_tramite}\n---\n- Arancel: ${arancel_dnrpa:,.2f}\n- Sello: ${impuesto_sello:,.2f}\n- Honorarios: ${honorarios:,.2f}\n---\n*TOTAL: ${total_final:,.2f}*"""
+        texto_wa = f"""*PRESUPUESTO GESTORÍA AUTOMOTOR*\n---\n*Cliente:* {nombre}\n*Dominio:* {dominio}\n*Trámite:* {tipo_tramite}\n---\n- Arancel: ${arancel_dnrpa:,.2f}\n- Sello: ${impuesto_sello:,.2f}\n- Honorarios y Formularios: ${honorarios:,.2f}{formularios:,.2f}\n---\n*TOTAL: ${total_final:,.2f}*"""
         st.text_area("Copia este mensaje:", texto_wa, height=200)
 
     if st.button("💾 Guardar en Historial Permanente"):
@@ -259,9 +260,7 @@ with col_btn2:
         "Arancel DNRPA (1.25%)": arancel_dnrpa,
         "Impuesto al Sello (3%)": impuesto_sello,
         "Recargo por Moras": valor_mora,
-        "Subtotal Formularios": total_formularios,
-        "Honorarios Profesionales": honorarios,
-        "Gastos de Combustible/Traslado": costo_combustible
+        "Honorarios + Formularios": total_formularios, honorarios, costo_combustible
     }
     
     try:
@@ -292,6 +291,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
