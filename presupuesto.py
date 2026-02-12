@@ -260,7 +260,7 @@ with col_btn2:
         "Arancel DNRPA (1.25%)": arancel_dnrpa,
         "Impuesto al Sello (3%)": impuesto_sello,
         "Recargo por Moras": valor_mora,
-        "Honorarios + Formularios": total_formularios, honorarios, costo_combustible
+        "Honorarios + Formularios": total_formularios + honorarios + costo_combustible
     }
     
     try:
@@ -291,6 +291,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
