@@ -5,7 +5,11 @@ import pandas as pd
 import os
 # Añadimos timedelta para el ajuste de zona horaria (UTC-3)
 from datetime import datetime, timedelta
-
+st.set_page_config(
+    page_title="Gestoria V&H",
+    page_icon="logo.png", # <--- Esto hace que el icono del acceso directo sea tu logo
+    layout="centered"
+)
 
 # --- CONFIGURACIÓN DE SUPABASE ---
 URL_SUPABASE = "https://uccjcpvouzozjwzsxqqu.supabase.co" 
@@ -273,6 +277,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
