@@ -3,16 +3,21 @@ from supabase import create_client, Client
 from fpdf import FPDF
 import pandas as pd
 import os
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo # Importante para manejar regiones
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
-# Definimos la zona horaria de Argentina
+# 1. Definir zona horaria
 ARG_TZ = ZoneInfo("America/Argentina/Buenos_Aires")
 
-# Para obtener la hora exacta de Argentina AHORA:
-ahora_argentina = datetime.now(ARG_TZ)
+# 2. Obtener fecha actual en Argentina
+ahora = datetime.now(ARG_TZ)
 
-print(f"La hora actual en Argentina es: {ahora_argentina}")
+# 3. CONVERTIR A ISO FORMAT (Esto soluciona el error)
+# Esto enviará algo como "2026-02-13T11:24:57-03:00"
+fecha_para_supabase = ahora.isoformat()
+
+# Ejemplo de inserción
+# data = {"nombre": "Juan", "fecha_registro": fecha_para_supabase}
 from PIL import Image
 
 # --- CONFIGURACIÓN DE PÁGINA (Debe ser lo primero después de los imports) ---
@@ -303,6 +308,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
