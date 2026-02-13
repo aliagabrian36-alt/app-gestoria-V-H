@@ -61,7 +61,7 @@ if login_usuario():
         st.session_state.session = None
         st.rerun()
 
-# --- FUNCIONES DE APOYO ---
+    # --- FUNCIONES DE APOYO ---
     def formato_moneda(valor):
         return f"$ {valor:,.0f}".replace(",", ".")
 
@@ -90,85 +90,41 @@ if login_usuario():
             st.error(f"Error al obtener historial: {e}")
             return []
 
-    # --- 2. FUNCIÓN PARA LEER EL HISTORIAL DE LA NUBE ---
-def obtener_historial():
-    try:
-        res = supabase.table("presupuestos").select("*").order("created_at", desc=True).execute()
-        return res.data
-    except Exception as e:
-        st.error(f"Error al obtener historial: {e}")
-        return []
-
- 
-        # --- FUNCIÓN PDF OPTIMIZADA ---
-def generar_pdf(nombre, dominio, tramite, total, detalle, registro, fecha):
-    # Usamos 'latin-1' para evitar errores con símbolos de pesos o tildes comunes
-    pdf = FPDF()
-    pdf.add_page()
-    
-    # Título con fondo gris
-    pdf.set_fill_color(230, 230, 230)
-    pdf.set_font("Arial", "B", 16)
-    pdf.cell(0, 15, txt="PRESUPUESTO GESTORIA AUTOMOTOR", ln=True, align="C", fill=True)
-    pdf.ln(10)
-    
-    # Datos del Cliente
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, txt="INFORMACION DEL TRAMITE", ln=True)
-    pdf.set_font("Arial", "", 11)
-    
-    # Tabla simple de datos
-    pdf.cell(95, 8, txt=f"Cliente: {nombre}", border="B")
-    pdf.cell(10)
-    pdf.cell(85, 8, txt=f"Fecha: {fecha}", border="B", ln=True)
-    
-    pdf.cell(95, 8, txt=f"Dominio: {dominio.upper()}", border="B")
-    pdf.cell(10)
-    pdf.cell(85, 8, txt=f"Registro: {registro}", border="B", ln=True)
-    
-    pdf.cell(0, 8, txt=f"Tipo de Tramite: {tramite}", border="B", ln=True)
-    pdf.ln(10)
-    
-    # Detalle de Costos
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(140, 10, txt="Concepto", border=1, align="C")
-    pdf.cell(50, 10, txt="Importe", border=1, ln=True, align="C")
-    
-    pdf.set_font("Arial", "", 11)
-    for concepto, valor in detalle.items():
-        if valor > 0:
-            pdf.cell(140, 8, txt=f" {concepto}", border=1)
-            # El símbolo $ a veces falla en PDF, usamos 'USD' o simplemente el número si da error
-            pdf.cell(50, 8, txt=f"$ {valor:,.2f}", border=1, ln=True, align="R")
-    
-    # Total
-    pdf.ln(5)
-    pdf.set_font("Arial", "B", 14)
-    pdf.set_fill_color(200, 255, 200)
-    pdf.cell(140, 12, txt=" TOTAL FINAL A ABONAR", border=1, fill=True)
-    pdf.cell(50, 12, txt=f"$ {total:,.2f}", border=1, ln=True, align="R", fill=True)
-    
-    # Nota al pie
-    pdf.ln(20)
-    pdf.set_font("Arial", "I", 9)
-    pdf.multi_cell(0, 5, txt="Este presupuesto tiene caracter informativo. Los valores pueden variar segun disposicion de la DNRPA.", align="C")
-    
- # --- BUSCA ESTA PARTE AL FINAL DE LA FUNCIÓN ---
-    # Elimina el .encode('latin-1') porque ya es binario
-    return pdf.output(dest='S')
-import pandas as pd
-import os
-
-def guardar_en_registro(datos):
-    archivo = "registro_presupuestos.csv"
-    df_nuevo = pd.DataFrame([datos])
-    
-    # Si el archivo no existe, lo crea con encabezados. Si existe, agrega la fila abajo.
-    if not os.path.isfile(archivo):
-        df_nuevo.to_csv(archivo, index=False, encoding='utf-8-sig')
-    else:
-        df_nuevo.to_csv(archivo, mode='a', index=False, header=False, encoding='utf-8-sig')
-
+    def generar_pdf(nombre, dominio, tramite, total, detalle, registro, fecha):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_fill_color(230, 230, 230)
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 15, txt="PRESUPUESTO GESTORIA AUTOMOTOR", ln=True, align="C", fill=True)
+        pdf.ln(10)
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(0, 10, txt="INFORMACION DEL TRAMITE", ln=True)
+        pdf.set_font("Arial", "", 11)
+        pdf.cell(95, 8, txt=f"Cliente: {nombre}", border="B")
+        pdf.cell(10)
+        pdf.cell(85, 8, txt=f"Fecha: {fecha}", border="B", ln=True)
+        pdf.cell(95, 8, txt=f"Dominio: {dominio.upper()}", border="B")
+        pdf.cell(10)
+        pdf.cell(85, 8, txt=f"Registro: {registro}", border="B", ln=True)
+        pdf.cell(0, 8, txt=f"Tipo de Tramite: {tramite}", border="B", ln=True)
+        pdf.ln(10)
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(140, 10, txt="Concepto", border=1, align="C")
+        pdf.cell(50, 10, txt="Importe", border=1, ln=True, align="C")
+        pdf.set_font("Arial", "", 11)
+        for concepto, valor in detalle.items():
+            if valor > 0:
+                pdf.cell(140, 8, txt=f" {concepto}", border=1)
+                pdf.cell(50, 8, txt=f"$ {valor:,.2f}", border=1, ln=True, align="R")
+        pdf.ln(5)
+        pdf.set_font("Arial", "B", 14)
+        pdf.set_fill_color(200, 255, 200)
+        pdf.cell(140, 12, txt=" TOTAL FINAL A ABONAR", border=1, fill=True)
+        pdf.cell(50, 12, txt=f"$ {total:,.2f}", border=1, ln=True, align="R", fill=True)
+        pdf.ln(20)
+        pdf.set_font("Arial", "I", 9)
+        pdf.multi_cell(0, 5, txt="Este presupuesto tiene caracter informativo. Los valores pueden variar segun disposicion de la DNRPA.", align="C")
+        return pdf.output(dest='S')
 
     # --- INTERFAZ DE USUARIO ---
     if os.path.exists("logo.png"):
@@ -213,119 +169,64 @@ def guardar_en_registro(datos):
         mora_sel = st.selectbox("Cantidad de Moras F08 (%)", list(mora_opciones.keys()))
         otros_gastos = st.number_input("Otros gastos ($)", min_value=0.0)
 
-# --- SECCIÓN 3: SELECCIÓN DE FORMULARIOS ---
-st.header("Selección de Formularios")
-tab_auto, tab_moto = st.tabs(["🚗 AUTO", "🏍️ MOTO"])
-total_formularios = 0.0
-
-with tab_auto:
-    c_a1, c_a2 = st.columns(2)
-    with c_a1:
-        if st.checkbox("02 ($8.300)"): total_formularios += 8300
-        if st.checkbox("03 ($8.300)"): total_formularios += 8300
-        if st.checkbox("Contrato de prenda ($7.700)"): total_formularios += 7700
-        if st.checkbox("04 ($8.300)"): total_formularios += 8300
-        if st.checkbox("05 ($8.300)"): total_formularios += 8300
+    # --- SECCIÓN 3: FORMULARIOS ---
+    st.header("Selección de Formularios")
+    total_formularios = 0.0
+    c_f1, c_f2 = st.columns(2)
+    with c_f1:
         if st.checkbox("08 ($16.000)"): total_formularios += 16000
-        if st.checkbox("08D ($16.000)"): total_formularios += 16000
-        if st.checkbox("T.P. ($8.300)"): total_formularios += 8300
-    with c_a2:
-        if st.checkbox("11 ($8.300)"): total_formularios += 8300
         if st.checkbox("12 ($16.000)"): total_formularios += 16000
-        if st.checkbox("15 ($13.000)"): total_formularios += 13000
-        if st.checkbox("59 ($8.300)"): total_formularios += 8300
-        if st.checkbox("59D ($8.300)"): total_formularios += 8300
+    with c_f2:
         if st.checkbox("Informe Infracciones ($15.000)"): total_formularios += 15000
-        if st.checkbox("Informe Histórico Dominio ($15.000)"): total_formularios += 15000
-        if st.checkbox("Informe Dominio ($10.000)"): total_formularios += 10000
+        if st.checkbox("02 ($8.300)"): total_formularios += 8300
 
-with tab_moto:
-    c_m1, c_m2 = st.columns(2)
-    with c_m1:
-        if st.checkbox("T.P.M. ($6.500)"): total_formularios += 6500
-        if st.checkbox("02M ($8.300)"): total_formularios += 8300
-        if st.checkbox("03M ($8.300)"): total_formularios += 8300
-        if st.checkbox("04M ($8.300)"): total_formularios += 8300
-        if st.checkbox("05M ($7.500)"): total_formularios += 7500
-    with c_m2:
-        if st.checkbox("08M ($7.500)"): total_formularios += 7500
-        if st.checkbox("08MD ($7.500)"): total_formularios += 7500
-        if st.checkbox("11M ($6.500)"): total_formularios += 6500
-        if st.checkbox("12M ($6.500)"): total_formularios += 6500
+    # --- SECCIÓN 4: CÁLCULOS ---
+    arancel_dnrpa = valor_tabla * 0.0125
+    impuesto_sello = valor_tabla * 0.03
+    valor_mora = arancel_dnrpa * mora_opciones[mora_sel]
+    honorarios = tramites_precios[tipo_tramite]
+    costo_combustible = distancia * costo_km
+    total_final = arancel_dnrpa + valor_mora + honorarios + costo_combustible + impuesto_sello + total_formularios + otros_gastos
 
-# --- SECCIÓN 4: CÁLCULOS FINALES ---
-arancel_dnrpa = valor_tabla * 0.0125
-impuesto_sello = valor_tabla * 0.03
-valor_mora = arancel_dnrpa * mora_opciones[mora_sel]
-honorarios = tramites_precios[tipo_tramite]
-costo_combustible = distancia * costo_km
-total_final = arancel_dnrpa + valor_mora + honorarios + costo_combustible + impuesto_sello + total_formularios + otros_gastos
-
-# --- SECCIÓN 5: MOSTRAR DETALLE ---
-st.markdown("---")
-st.header("💰 Detalle de Costos")
-col_res1, col_res2, col_res3 = st.columns(3)
-col_res1.metric("Arancel DNRPA", f"${arancel_dnrpa:,.2f}")
-col_res1.metric("Impuesto al Sello", f"${impuesto_sello:,.2f}")
-col_res2.metric("Mora F08", f"${valor_mora:,.2f}")
-col_res2.metric("Honorarios", f"${honorarios:,.2f}")
-col_res3.metric("Subtotal Forms", f"${total_formularios:,.2f}")
-col_res3.metric("Combustible", f"${costo_combustible:,.2f}")
-col_res3.metric("Otros gastos", f"${otros_gastos:,.2f}")
-st.success(f"### TOTAL: ${total_final:,.2f}")
-
-   # --- SECCIÓN 6: EXPORTACIÓN ---
-col_btn1, col_btn2 = st.columns(2)
-
-with col_btn1:
-    if st.button("✅ Generar formato WhatsApp"):
-        texto_wa = f"""*PRESUPUESTO GESTORÍA AUTOMOTOR*\n---\n Cliente: {nombre}\n Dominio: {dominio}\n Trámite: {tipo_tramite}\n---\n- Arancel: ${arancel_dnrpa:,.2f}\n- Recargo por Moras: ${valor_mora:,.2f}\n- Imp. al sello: ${impuesto_sello:,.2f}\n- Honorarios y Formularios: ${honorarios + total_formularios + costo_combustible + otros_gastos:,.2f}\n---\n TOTAL: ${total_final:,.2f}*"""
-        st.text_area("Copia este mensaje:", texto_wa, height=200)
-
-    if st.button("💾 Guardar en Historial Permanente"):
-        if nombre and dominio:
-            exito = guardar_en_supabase(nombre, dominio, tipo_tramite, total_final)
-            if exito:
-                st.success("✅ Guardado en la nube de Supabase.")
-        else:
-            st.warning("Completa Nombre y Dominio antes de guardar.")
-
-with col_btn2:
-    detalle_pdf = {
-        "Arancel DNRPA (1.25%)": arancel_dnrpa,
-        "Impuesto al Sello (3%)": impuesto_sello,
-        "Recargo por Moras": valor_mora,
-        "Honorarios + Formularios": total_formularios + honorarios + costo_combustible + otros_gastos
-    }
+    # --- SECCIÓN 5: RESULTADOS ---
+    st.markdown("---")
+    st.header("💰 Detalle de Costos")
+    col_res1, col_res2, col_res3 = st.columns(3)
+    col_res1.metric("Arancel DNRPA", formato_moneda(arancel_dnrpa))
+    col_res1.metric("Impuesto al Sello", formato_moneda(impuesto_sello))
+    col_res2.metric("Mora F08", formato_moneda(valor_mora))
+    col_res2.metric("Honorarios", formato_moneda(honorarios))
+    col_res3.metric("Subtotal Forms", formato_moneda(total_formularios))
+    col_res3.metric("Combustible", formato_moneda(costo_combustible))
     
-    try:
-        pdf_raw = generar_pdf(nombre, dominio, tipo_tramite, total_final, detalle_pdf, registro, fecha)
-        pdf_bytes = bytes(pdf_raw, 'latin-1') if isinstance(pdf_raw, str) else bytes(pdf_raw)
-        
-        st.download_button(
-            label="📥 Descargar Presupuesto PDF",
-            data=pdf_bytes,
-            file_name=f"Presupuesto_{dominio}.pdf",
-            mime="application/pdf"
-        )
-    except Exception as e:
-        st.error(f"Error al generar PDF: {e}")
+    st.success(f"### TOTAL FINAL: {formato_moneda(total_final)}")
 
-# --- SECCIÓN 7: CONSULTA DE HISTORIAL ---
-st.markdown("---")
-st.header("📂 Historial Multidispositivo")
+    # --- SECCIÓN 6: BOTONES ---
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        if st.button("💾 Guardar en Historial"):
+            if nombre and dominio:
+                if guardar_en_supabase(nombre, dominio, tipo_tramite, total_final):
+                    st.success("✅ Guardado en la nube.")
+            else:
+                st.warning("Faltan datos del cliente.")
 
-if st.button("🔄 Actualizar Historial desde la Nube"):
-    datos_nube = obtener_historial()
-    if datos_nube:
-        df_historial = pd.DataFrame(datos_nube)
-        # Reordenamos columnas para que se vea más profesional
-        cols = ["created_at", "cliente", "dominio", "tramite", "total"]
-        df_mostrar = df_historial[[c for c in cols if c in df_historial.columns]]
-        st.dataframe(df_mostrar, use_container_width=True)
-    else:
+    with col_btn2:
+        detalle_pdf = {"Arancel": arancel_dnrpa, "Sello": impuesto_sello, "Mora": valor_mora, "Honorarios+Otros": honorarios + total_formularios + costo_combustible + otros_gastos}
+        try:
+            pdf_raw = generar_pdf(nombre, dominio, tipo_tramite, total_final, detalle_pdf, registro, fecha_input)
+            st.download_button(label="📥 Descargar PDF", data=pdf_raw, file_name=f"Presupuesto_{dominio}.pdf", mime="application/pdf")
+        except Exception as e:
+            st.error(f"Error PDF: {e}")
 
-        st.info("No hay registros en la base de datos todavía.")
+    # --- SECCIÓN 7: HISTORIAL ---
+    st.markdown("---")
+    if st.button("🔄 Ver Historial de la Nube"):
+        datos = obtener_historial()
+        if datos:
+            df = pd.DataFrame(datos)[["created_at", "cliente", "dominio", "tramite", "total"]]
+            st.dataframe(df, use_container_width=True)
+
 
 
 
