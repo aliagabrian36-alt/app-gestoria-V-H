@@ -4,6 +4,15 @@ from fpdf import FPDF
 import pandas as pd
 import os
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo # Importante para manejar regiones
+
+# Definimos la zona horaria de Argentina
+ARG_TZ = ZoneInfo("America/Argentina/Buenos_Aires")
+
+# Para obtener la hora exacta de Argentina AHORA:
+ahora_argentina = datetime.now(ARG_TZ)
+
+print(f"La hora actual en Argentina es: {ahora_argentina}")
 from PIL import Image
 
 # --- CONFIGURACIÓN DE PÁGINA (Debe ser lo primero después de los imports) ---
@@ -294,6 +303,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
