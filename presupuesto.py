@@ -61,28 +61,34 @@ if login_usuario():
         st.session_state.session = None
         st.rerun()
 
-    # --- FUNCIONES DE APOYO ---
+# --- FUNCIONES DE APOYO ---
     def formato_moneda(valor):
         return f"$ {valor:,.0f}".replace(",", ".")
 
-  def guardar_en_supabase(cliente, dominio, tramite, total):
-    try:
-        # Calculamos la hora de Argentina (UTC-3)
-        argentina_now = datetime.utcnow() - timedelta(hours=3)
-        fecha_formateada = argentina_now.strftime('%d/%m/%Y %H:%M:%S')
+    def guardar_en_supabase(cliente, dominio, tramite, total):
+        try:
+            ahora = datetime.now(ARG_TZ)
+            fecha_para_supabase = ahora.isoformat()
+            data = {
+                "cliente": cliente,
+                "dominio": dominio,
+                "tramite": tramite,
+                "total": float(total),
+                "created_at": fecha_para_supabase
+            }
+            supabase.table("presupuestos").insert(data).execute()
+            return True
+        except Exception as e:
+            st.error(f"Error al guardar: {e}")
+            return False
 
-        data = {
-            "cliente": cliente,
-            "dominio": dominio,
-            "tramite": tramite,
-            "total": float(total),
-            "created_at": fecha_formateada # Sobrescribimos con nuestra hora
-        }
-        supabase.table("presupuestos").insert(data).execute()
-        return True
-    except Exception as e:
-        st.error(f"Error al guardar en Supabase: {e}")
-        return False
+    def obtener_historial():
+        try:
+            res = supabase.table("presupuestos").select("*").order("created_at", desc=True).execute()
+            return res.data
+        except Exception as e:
+            st.error(f"Error al obtener historial: {e}")
+            return []
 
     # --- 2. FUNCIÓN PARA LEER EL HISTORIAL DE LA NUBE ---
 def obtener_historial():
@@ -354,6 +360,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
