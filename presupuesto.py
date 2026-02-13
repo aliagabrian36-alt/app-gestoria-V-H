@@ -158,9 +158,12 @@ col_t1, col_t2 = st.columns(2)
 
 with col_t1:
     tramites_precios = {
+        "-": 0.0,
         "Transferencia": 60000.0,
         "Transferencia M": 80000.0,
         "Transferencia L": 100000.0,
+        "Denuncia de Posesion": 80000.0,
+        "Alta/Baja": 45000.0,
         "Duplicado Cedula o Titulo": 60000.0,
         "Denuncia de Extravío": 12000.0,
         "Denuncia de Venta": 60000.0,
@@ -291,6 +294,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
