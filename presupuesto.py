@@ -99,40 +99,8 @@ def obtener_historial():
         st.error(f"Error al obtener historial: {e}")
         return []
 
-    def generar_pdf(nombre, dominio, tramite, total, detalle, registro, fecha):
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_fill_color(230, 230, 230)
-        pdf.set_font("Arial", "B", 16)
-        pdf.cell(0, 15, txt="PRESUPUESTO GESTORIA AUTOMOTOR", ln=True, align="C", fill=True)
-        pdf.ln(10)
-        pdf.set_font("Arial", "B", 12)
-        pdf.cell(0, 10, txt="INFORMACION DEL TRAMITE", ln=True)
-        pdf.set_font("Arial", "", 11)
-        pdf.cell(95, 8, txt=f"Cliente: {nombre}", border="B")
-        pdf.cell(10)
-        pdf.cell(85, 8, txt=f"Fecha: {fecha}", border="B", ln=True)
-        pdf.cell(95, 8, txt=f"Dominio: {dominio.upper()}", border="B")
-        pdf.cell(10)
-        pdf.cell(85, 8, txt=f"Registro: {registro}", border="B", ln=True)
-        pdf.cell(0, 8, txt=f"Tipo de Tramite: {tramite}", border="B", ln=True)
-        pdf.ln(10)
-        pdf.set_font("Arial", "B", 12)
-        pdf.cell(140, 10, txt="Concepto", border=1, align="C")
-        pdf.cell(50, 10, txt="Importe", border=1, ln=True, align="C")
-        pdf.set_font("Arial", "", 11)
-        for concepto, valor in detalle.items():
-            if valor > 0:
-                pdf.cell(140, 8, txt=f" {concepto}", border=1)
-                pdf.cell(50, 8, txt=f"$ {valor:,.2f}", border=1, ln=True, align="R")
-        pdf.ln(5)
-        pdf.set_font("Arial", "B", 14)
-        pdf.set_fill_color(200, 255, 200)
-        pdf.cell(140, 12, txt=" TOTAL FINAL A ABONAR", border=1, fill=True)
-        pdf.cell(50, 12, txt=f"$ {total:,.2f}", border=1, ln=True, align="R", fill=True)
-        pdf.ln(20)
-        pdf.set_font("Arial", "I", 9)
-        pdf.multi_cell(0, 5, txt="Este presupuesto # --- FUNCIÓN PDF OPTIMIZADA ---
+ 
+        # --- FUNCIÓN PDF OPTIMIZADA ---
 def generar_pdf(nombre, dominio, tramite, total, detalle, registro, fecha):
     # Usamos 'latin-1' para evitar errores con símbolos de pesos o tildes comunes
     pdf = FPDF()
@@ -360,6 +328,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
