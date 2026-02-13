@@ -153,7 +153,7 @@ def generar_pdf(nombre, dominio, tramite, total, detalle, registro, fecha):
     pdf.set_font("Arial", "I", 9)
     pdf.multi_cell(0, 5, txt="Este presupuesto tiene caracter informativo. Los valores pueden variar segun disposicion de la DNRPA.", align="C")
     
-    # --- BUSCA ESTA PARTE AL FINAL DE LA FUNCIÓN ---
+ # --- BUSCA ESTA PARTE AL FINAL DE LA FUNCIÓN ---
     # Elimina el .encode('latin-1') porque ya es binario
     return pdf.output(dest='S')
 import pandas as pd
@@ -169,8 +169,6 @@ def guardar_en_registro(datos):
     else:
         df_nuevo.to_csv(archivo, mode='a', index=False, header=False, encoding='utf-8-sig')
 
-tiene caracter informativo. Los valores pueden variar segun disposicion de la DNRPA.", align="C")
-        return pdf.output(dest='S')
 
     # --- INTERFAZ DE USUARIO ---
     if os.path.exists("logo.png"):
@@ -328,6 +326,7 @@ if st.button("🔄 Actualizar Historial desde la Nube"):
     else:
 
         st.info("No hay registros en la base de datos todavía.")
+
 
 
 
